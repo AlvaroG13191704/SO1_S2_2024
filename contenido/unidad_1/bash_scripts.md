@@ -2,9 +2,53 @@
 
 ## 1.2.1. Introducción a Bash
 
+####  Historia y evolución de Bash
+
+Bash fue creado por Brian Fox en 1989 como una alternativa al shell Bourne original (sh). Bash es una mejora significativa sobre el shell Bourne, con características adicionales como la expansión de comandos, la historia de comandos y la finalización de comandos. Bash se ha convertido en el shell por defecto en muchas distribuciones de Unix y Linux, y es ampliamente utilizado por los administradores de sistemas y desarrolladores.
+
+#### ¿Qué es Bash?
+
 Bash es el acrónimo de "Bourne Again SHell". Es el shell por defecto en muchas distribuciones de Unix y Linux, y es un lenguaje de comandos que permite a los usuarios interactuar con el sistema operativo para ejecutar comandos, realizar tareas de administración y automatizar procesos.
 
+En términos básicos la Bash es un intérprete de línea de comandos que generalmente se ejecuta en una ventana donde se puede ingresar texto donde interpreta lo que el usuario ingresa al momento de realizar alguna acción. La combinación de estos comandos termina siendo un Script que de igual manera puede ser ejecutado en una Shell Script. 
+
+#### ¿Qué es Shell?
+
+La shell es un intérprete de comandos que permite a los usuarios interactuar con el sistema operativo. La shell toma los comandos ingresados por el usuario y los ejecuta, permitiendo al usuario realizar tareas como navegar por el sistema de archivos, ejecutar programas y automatizar tareas. La Shell es como el intermediario entre lo interior y exterior.
+
+#### Diferencias entre Bash y otros shells (sh, zsh, ksh)
+
+- **Bash vs. sh**: Bash es una mejora del shell Bourne original (sh) y es compatible con la mayoría de los scripts de shell Bourne. Bash incluye características adicionales como la expansión de comandos, la historia de comandos y la finalización de comandos.
+- **Bash vs. zsh**: Zsh es otro shell popular que incluye características avanzadas como la finalización de comandos más inteligente, la expansión de comandos más avanzada y una sintaxis más flexible. Zsh es más personalizable y tiene una curva de aprendizaje más pronunciada que Bash.
+- **Bash vs. ksh**: Ksh (Korn shell) es otro shell popular que es compatible con la mayoría de los scripts de shell Bourne. Ksh incluye características avanzadas como la finalización de comandos y la expansión de comandos más avanzada. Ksh es más rápido y más eficiente que Bash en algunos casos.
+
+
 ## 1.2.2. Estructura básica de un script
+
+### Comandos
+
+Los comandos en Bash son instrucciones que se ejecutan en la línea de comandos o en un script. Los comandos pueden ser comandos internos del shell, comandos externos del sistema operativo o scripts de shell.
+
+##### Comandos de navegación en el sistema de archivos
+
+```bash
+pwd                       # Imprime el directorio actual
+ls                        # Lista los archivos y directorios en el directorio actual
+ls -a|--all               # Lista los archivos y directorios, incluyendo los ocultos
+ls -l                     # Lista los archivos y directorios en formato largo
+ls -l -h|--human-readable # Lista los archivos y directorios en formato largo y legible
+ls -t                     # Lista los archivos y directorios ordenados por fecha de modificación
+stat foo.txt              # Lista el tamaño, la fecha de creación y la fecha de modificación de un archivo
+stat foo                  # Lista el tamaño, la fecha de creación y la fecha de modificación de un directorio
+tree                      # Lista el árbol de directorios y archivos
+cd foo                    # Ir al directorio foo
+cd                        # Ir al directorio raíz
+cd -                      # Ir al directorio anterior
+```
+
+[Referencia a más comandos](https://github.com/RehanSaeed/Bash-Cheat-Sheet)
+
+#### Scripts
 
 Un script de Bash es simplemente un archivo de texto que contiene una serie de comandos que se ejecutan secuencialmente. La estructura básica incluye:
 
@@ -18,53 +62,62 @@ Un script de Bash es simplemente un archivo de texto que contiene una serie de c
 echo "Hola, mundo"
 ```
 
+### Ejecución de un script
+
+Para ejecutar un script de Bash, se debe dar permisos de ejecución al archivo y luego ejecutarlo con el comando `./nombre_script.sh`.
+ 
+```bash
+chmod +x nombre_script.sh  # Dar permisos de ejecución al script
+./nombre_script.sh         # Ejecutar el script
+```
+
 ## 1.2.3. Variables y control de flujo
 En Bash, puedes definir variables y usar estructuras de control de flujo como bucles y condicionales.
 
 - **Variables**: Las variables en Bash se definen simplemente asignando un valor a un nombre. Para acceder al valor de una variable, se utiliza el símbolo `$` seguido del nombre de la variable.
 
-```bash
-#!/bin/bash
-# Definir una variable
-nombre="Mundo"
-echo "Hola, $nombre"
-```
+  ```bash
+  #!/bin/bash
+  # Definir una variable
+  nombre="Mundo"
+  echo "Hola, $nombre"
+  ```
 
 - **Condicionales**: Las estructuras condicionales en Bash permiten ejecutar comandos basados en ciertas condiciones. La estructura básica de un condicional `if` es la siguiente:
 
-```bash
-#!/bin/bash
-# Condicional if-else
-if [ "$nombre" = "Mundo" ]; then
-  echo "Hola, Mundo"
-else
-  echo "Hola, desconocido"
-fi
-```
+  ```bash
+  #!/bin/bash
+  # Condicional if-else
+  if [ "$nombre" = "Mundo" ]; then
+    echo "Hola, Mundo"
+  else
+    echo "Hola, desconocido"
+  fi
+  ```
 
 - **Bucles**: Los bucles permiten ejecutar repetidamente un bloque de código. Los bucles for y while son comúnmente usados en Bash.
 
- **Bucle For**
+  **Bucle For**
 
-```bash
-#!/bin/bash
-# Bucle for
-for i in {1..5}; do
-  echo "Iteración $i"
-done
-```
+    ```bash
+    #!/bin/bash
+    # Bucle for
+    for i in {1..5}; do
+      echo "Iteración $i"
+    done
+  ```
 
- **Bucle While**
+  **Bucle While**
 
-```bash
-#!/bin/bash
-# Bucle while
-contador=1
-while [ $contador -le 5 ]; do
-  echo "Iteración $contador"
-  contador=$((contador + 1))
-done
-```
+  ```bash
+  #!/bin/bash
+  # Bucle while
+  contador=1
+  while [ $contador -le 5 ]; do # Mientras contador sea menor o igual a 5
+    echo "Iteración $contador"
+    contador=$((contador + 1)) # Incrementar el contador0
+  done
+  ```
 
 ## 1.2.4. Scripts para administración del sistema
 Los scripts de Bash son muy útiles para tareas de administración del sistema, como la gestión de usuarios, la automatización de backups y la supervisión del sistema.

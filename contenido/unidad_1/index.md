@@ -78,3 +78,11 @@
 - **2.4.2. Comunicación de procesos usando gRPC**
 - **2.4.3. Kafka**
 - **2.4.4. NoSQL para sistemas distribuidos**
+
+
+
+
+## Recursos
+
+- [Bash y shell](https://recluit.com/que-es-bash/#:~:text=Bash%20es%20un%20programa%20shell,los%20sistemas%20operativos%20GNU%2FLinux.)
+- [Comandos de la bash](https://devhints.io/bash)
