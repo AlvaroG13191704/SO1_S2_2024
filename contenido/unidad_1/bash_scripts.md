@@ -135,24 +135,32 @@ Este script captura las teclas presionadas por el usuario y las escribe en un ar
 ```bash
 #!/bin/bash
 
-# Archivo donde se guardarán las teclas presionadas
+# Script para capturar las teclas y escribir en un archivo cada 5 segundos
+
+# Creamos el archivo donde vamos a guardar las teclas
 archivo="teclas.log"
 
-# Limpiar el archivo al inicio
+# Limpiamos el archivo
 > $archivo
 
-echo "Presiona las teclas que quieras capturar. Presiona Ctrl+C para salir."
+# Mosgtramos un mensaje
 
-# Bucle infinito
+echo "Presiona las teclas que quieres capturar. Presiona Ctrl+C para salir"
+
+# Creamos un bucle infinito 
 while true; do
-  # Capturar la entrada del teclado
-  read -n 1 -s tecla
 
-  # Escribir la tecla en el archivo con la fecha y hora actuales
-  echo "$(date +%Y-%m-%d\ %H:%M:%S) - Tecla presionada: $tecla" >> $archivo
+    # capturar la entrada
+    read -n 1 -s tecla # -n 1 captura solo un caracter, -s no muestra la tecla, tecla es la variable donde se guarda la tecla
 
-  # Esperar 5 segundos
-  sleep 5
+    # escribimos y guardamos 
+    # El comando >> conocido como redirección de salida, se utiliza para redirigir la salida de un comando a un archivo
+    # Existen dos tipos de redirección de salida: >> y >
+    # >> se utiliza para redirigir la salida de un comando a un archivo, pero si el archivo ya existe, el comando añadirá la salida al final del archivo
+    # > se utiliza para redirigir la salida de un comando a un archivo, pero si el archivo ya existe, el comando sobrescribirá el archivo
+    
+    echo -n "$tecla" >> $archivo # -n no añade un salto de línea al final 
+
 done
 ```
 
@@ -181,17 +189,28 @@ El script para procesar el archivo `sistema.log` y extraer los errores es el sig
 ```bash
 #!/bin/bash
 
-# Archivo de registro de entrada
+# Script para supervisar el uso de disco y mostrar advertencia
+
+# Archivo de entrada
 archivo_entrada="sistema.log"
 
 # Archivo de salida
-archivo_salida="reporte_errores.txt"
+archivo_salida="reporte.txt"
 
-# Procesar el archivo de registro y guardar los resultados en el archivo de salida
-grep "ERROR" $archivo_entrada | cut -d':' -f3- | sort | uniq -c > $archivo_salida
 
-echo "El reporte de errores ha sido guardado en $archivo_salida."
+# Procesar el archivo de entrada y guardar los resultados en el archivo de salida
 
+# Explicación de comandos a utilizar
+# grep <patron> <archivo> : Busca un patron en un archivo
+# | : Pipe, redirige la salida de un comando a la entrada de otro
+# cut -d <delimitador> -f <campo> : Extrae un campo de un archivo delimitado
+# sort : Ordena las lineas de un archivo
+# uniq -c : Cuenta las lineas repetidas de un archivo
+# > : Redirige la salida de un comando a un archivo
+
+grep "ERROR" $archivo_entrada | cut -d':' -f 2 - | sort | uniq -c > $archivo_salida
+
+echo "Reporte generado en $archivo_salida"
 ```
 
 
@@ -205,16 +224,37 @@ Este script crea un archivo comprimido que contiene los archivos de un directori
 
 ```bash
 #!/bin/bash
-# Script para crear un backup de un directorio
+# Un script para crea un archivo comprimido que contiene los archivos de un directorio espeficio
 
-# Directorio de origen
-origen="/home/usuario/documentos"
-# Directorio de destino
-destino="/home/usuario/backup"
+# origen (este directorio)
+origen="."
+# destino un archivo comprimido afuera de este
+destino="../"
 
-# Crear el backup
+# checamos si el destino existe, sino lo creamos
+
+if [ ! -d "$destino" ]; then # -d es un flag para verificar si un directorio existe
+    mkdir "$destino"
+fi
+
+# checamos si tenemos permisos pñara escribir en el destino
+
+if [ ! -w "$destino" ]; then # -w es un flag para verificar si tenemos permisos de escritura
+    echo "No tienes permisos para escribir en $destino"
+    exit 1
+fi
+
+# creamos el backup
+# tar -> es un comando para crear archivos comprimidos
+# -czvf -> c: crea un archivo, z: comprime, v: verbose, f: nombre del archivo
+# "$destino/backup_$(date +%Y%m%d).tar.gz" -> nombre del archivo
+# "$origen" -> directorio a comprimir
 tar -czvf "$destino/backup_$(date +%Y%m%d).tar.gz" "$origen"
-echo "Backup completado"
+
+echo "Backup creado en $destino/backup_$(date +%Y%m%d).tar.gz"
+
+
+## Agregar notas de ERROR
 ```
 
 **Ejemplo de script para supervisar el uso de disco**
@@ -222,14 +262,29 @@ Este script comprueba el uso del disco y envía una advertencia si el uso supera
 
 ```bash
 #!/bin/bash
-# Script para supervisar el uso del disco
+
+# Script para supervisar el uso de disco y mostrar advertencia
 
 # Obtener el uso del disco
-uso_disco=$(df -h / | grep / | awk '{ print $5 }' | sed 's/%//g')
 
-# Comprobar si el uso del disco supera el 80%
-if [ "$uso_disco" -gt 80 ]; then
-  echo "Advertencia: El uso del disco es del ${uso_disco}%"
+# Comandos a utilizar
+# $() : Ejecuta un comando y guarda su salida
+# df -h  / : Muestra el uso de disco de la partición raíz
+# | : Pipe, redirige la salida de un comando a la entrada de otro
+# grep / : Filtra las lineas que contienen la partición raíz
+# awk '{print $5}' : Imprime la quinta columna de un archivo
+# sed 's/%//g' : Elimina los caracteres '%' de un archivo
+
+uso_disco=$(df -h / | grep / | awk '{print $5}' | sed 's/%//g')
+
+echo "Uso de disco: $uso_disco%"
+
+# Comprobar si el uso de disco supera el 80%
+
+if [ "$uso_disco" -gt 80 ]; then # Si el uso de disco supera el 80%
+    echo "Advertencia: El uso de disco supera el 80%"
+else
+    echo "Uso de disco normal"
 fi
 ```
 
@@ -240,44 +295,75 @@ Con el nuevo usuario se puede asignar una contraseña, crear un directorio home 
 
 ```bash
 #!/bin/bash
+
 # Script para añadir un nuevo usuario
 
-# Nombre del usuario
-nuevo_usuario="nuevo_usuario"
-# Contraseña del usuario
-contraseña="contraseña123"
+# nombre de usuario
+nombre_usuario="usuario2"
+
+# contraseña
+contrasena="123"
+
 # Directorio home
-home_dir="/home/$nuevo_usuario"
-# Shell predeterminado
+home_dir="/home/$nombre_usuario"
+
+# shell predeterminado
 shell="/bin/bash"
 
-# Crear el usuario con el directorio home y el shell predeterminado
-useradd -m -d "$home_dir" -s "$shell" "$nuevo_usuario"
-# Establecer la contraseña del usuario
-echo "$nuevo_usuario:$contraseña" | chpasswd
 
-echo "Usuario $nuevo_usuario creado con éxito"
+# Crear el usuario con el directorio home y el shell predeterminado
+# Comandos a utilizar
+# useradd -m -d <directorio_home> -s <shell> <nombre_usuario> : Crea un usuario con un directorio home y un shell
+useradd -m -d $home_dir -s $shell $nombre_usuario
+
+# Establecer la contraseña del usuario
+echo "$nombre_usuario:$contrasena" | chpasswd
+
+echo "Usuario creado: $nombre_usuario"
+
+# Comprobar si el usuario se ha creado correctamente
+if [ $? -eq 0 ]; then # $? contiene el código de salida del último comando ejecutado 
+    echo "Usuario creado correctamente"
+else
+    echo "Error al crear el usuario"
+fi
+
+# abrir la bash con el usuario creado
+su - $nombre_usuario
 ```
 
-Como eliminar un usuario luego de haberlo creado:
+Si deseamos borrar el usuario hay que ejecutar este comando
 
 ```bash
-userdel -r <nombre_usuario>
+sudo userdel -r <nombre_usuario>
 ```
+
+
 
 **Ejemplo de Script para monitorear el uso de memoria**
 Este script monitorea el uso de memoria y envía una advertencia si el uso de memoria libre es inferior a un umbral especificado (20% en este caso).
 
 ```bash
 #!/bin/bash
-# Script para monitorear el uso de memoria
 
-# Obtener el porcentaje de memoria libre
-mem_libre=$(free | grep Mem | awk '{print $4/$2 * 100.0}')
+# Script para monitorear el uso de memoria y enviar una advertencia
+
+# Obtener el uso de memoria
+# Comandos a utilizar
+# free -m : Muestra el uso de memoria en MB
+# grep Mem : Filtra las lineas que contienen la palabra Mem
+# awk '{print $4/$2 * 100.0}' : Imprime la tercera columna de un archivo
+
+mem_libre=$(free  | grep Mem | awk '{print $4/$2 * 100.0}')
 
 # Comprobar si la memoria libre es inferior al 20%
-if (( $(echo "$mem_libre < 20" | bc -l) )); then
-  echo "Advertencia: Memoria libre baja (${mem_libre}%)"
+# (( )) : Evalua una expresión aritmética
+# |  : Pipe, redirige la salida de un comando a la entrada de otro
+# bc -l : Calculadora de precisión arbitraria
+if (( $(echo "$mem_libre < 20" | bc -l) )); then 
+    echo "Advertencia: La memoria libre es de $mem_libre%"
+else
+    echo "Memoria libre normal"
 fi
 ```
 
