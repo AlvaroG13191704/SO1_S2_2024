@@ -52,7 +52,7 @@ cd -                      # Ir al directorio anterior
 
 Un script de Bash es simplemente un archivo de texto que contiene una serie de comandos que se ejecutan secuencialmente. La estructura básica incluye:
 
-- **Shebang**: Indica al sistema qué intérprete usar. Ejemplo: `#!/bin/bash`
+- **Shebang**: Indica al sistema qué intérprete usar. Ejemplo: `#!/bin/bash`. Podemos usar otros intérpretes como `#!/bin/sh`, `#!/bin/zsh`, etc.
 - **Comentarios**: Empiezan con `#` y no son ejecutados. Ejemplo: `# Este es un comentario`
 - **Comandos**: Cualquier comando de Bash. Ejemplo: `echo "Hola, mundo"`
 
@@ -119,8 +119,86 @@ En Bash, puedes definir variables y usar estructuras de control de flujo como bu
   done
   ```
 
+#### Super usuario vs Usuario
+
+El superusuario es el usuario con permisos de administrador en un sistema Unix o Linux. El superusuario tiene acceso a todos los archivos y recursos del sistema y puede realizar tareas de administración como instalar software, configurar el sistema y modificar archivos de configuración. El superusuario se identifica por el nombre de usuario `root` y tiene permisos especiales que le permiten realizar tareas que otros usuarios no pueden hacer.
+
+Si deseamos ejecutar un comando como superusuario, podemos usar el comando `sudo` seguido del comando que queremos ejecutar. Por ejemplo, para ejecutar el comando `apt-get update` como superusuario, podemos usar `sudo apt-get update`.
+
+O si queremos ejecutar un script como superusuario, podemos usar `sudo ./nombre_script.sh`.
+
+Siempre que no se tenga los permisos se nos solicitará la contraseña de superusuario para poder ejecutar el comando o bien mostrar un error de permisos.
+
+**Ejemplo de un Script para capturar teclas y escribir en un archivo cada 5 segundos**
+Este script captura las teclas presionadas por el usuario y las escribe en un archivo cada 5 segundos.
+
+```bash
+#!/bin/bash
+
+# Archivo donde se guardarán las teclas presionadas
+archivo="teclas.log"
+
+# Limpiar el archivo al inicio
+> $archivo
+
+echo "Presiona las teclas que quieras capturar. Presiona Ctrl+C para salir."
+
+# Bucle infinito
+while true; do
+  # Capturar la entrada del teclado
+  read -n 1 -s tecla
+
+  # Escribir la tecla en el archivo con la fecha y hora actuales
+  echo "$(date +%Y-%m-%d\ %H:%M:%S) - Tecla presionada: $tecla" >> $archivo
+
+  # Esperar 5 segundos
+  sleep 5
+done
+```
+
+**Ejemplo de un script que utiliza los comandos más importantes de Bash**
+En este ejemplo vamos a procesar un archivo de texto y extraer la información específica.
+
+Vamos a procesa un archivo de tipo log para extraer las líneas que contienen errores y contar cuántos errores de cada tipo hay. Luego guardar los resultados en un archivo de salida.
+
+Vamos a crear un archivo de texto llamado `sistema.log` con el siguiente contenido:
+
+```bash
+INFO: El sistema ha iniciado.
+ERROR: Falla en el módulo de red.
+INFO: Conexión establecida.
+ERROR: Tiempo de espera agotado.
+INFO: Operación completada.
+ERROR: Falla en el módulo de red.
+WARNING: Uso de memoria alto.
+ERROR: Disco lleno.
+INFO: Backup completado.
+ERROR: Falla en el módulo de red.
+```
+
+El script para procesar el archivo `sistema.log` y extraer los errores es el siguiente:
+
+```bash
+#!/bin/bash
+
+# Archivo de registro de entrada
+archivo_entrada="sistema.log"
+
+# Archivo de salida
+archivo_salida="reporte_errores.txt"
+
+# Procesar el archivo de registro y guardar los resultados en el archivo de salida
+grep "ERROR" $archivo_entrada | cut -d':' -f3- | sort | uniq -c > $archivo_salida
+
+echo "El reporte de errores ha sido guardado en $archivo_salida."
+
+```
+
+
+
 ## 1.2.4. Scripts para administración del sistema
 Los scripts de Bash son muy útiles para tareas de administración del sistema, como la gestión de usuarios, la automatización de backups y la supervisión del sistema.
+
 
 **Ejemplo de script para crear un backup**
 Este script crea un archivo comprimido que contiene los archivos de un directorio específico.
@@ -158,6 +236,8 @@ fi
 **Ejemplo de Script para gestionar usuarios**
 Este script añade un nuevo usuario al sistema, asignándole un directorio home y un shell predeterminado.
 
+Con el nuevo usuario se puede asignar una contraseña, crear un directorio home y establecer un shell predeterminado. La utilidad de hacer esto es para poder tener un control de los usuarios que se crean en el sistema y que de manera encapsulada se pueda tener un control de los permisos y accesos que se le otorgan a cada usuario.
+
 ```bash
 #!/bin/bash
 # Script para añadir un nuevo usuario
@@ -177,6 +257,12 @@ useradd -m -d "$home_dir" -s "$shell" "$nuevo_usuario"
 echo "$nuevo_usuario:$contraseña" | chpasswd
 
 echo "Usuario $nuevo_usuario creado con éxito"
+```
+
+Como eliminar un usuario luego de haberlo creado:
+
+```bash
+userdel -r <nombre_usuario>
 ```
 
 **Ejemplo de Script para monitorear el uso de memoria**
