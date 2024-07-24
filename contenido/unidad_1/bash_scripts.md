@@ -1,4 +1,4 @@
-# 2. Creación de Scripts en Bash
+# 1. Creación de Scripts en Bash
 
 ## 1.2.1. Introducción a Bash
 

@@ -13,10 +13,10 @@
 
 
 ### 2. Procesos y Programación Concurrente
-
-- **1.2.1. Manejo de procesos en Linux**
-- **1.2.2. Diagrama de transición de procesos**
-- **1.2.3. Programación concurrente en Linux**
+- **1.2.1. Instalación/configuración de C y python en Linux**
+- **1.2.2. Manejo de procesos en Linux**
+- **1.2.3. Diagrama de transición de procesos**
+- **1.2.4. Programación concurrente en Linux**
 
 ### 3. Rust
 
