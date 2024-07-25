@@ -50,3 +50,5 @@
 
 - [Bash y shell](https://recluit.com/que-es-bash/#:~:text=Bash%20es%20un%20programa%20shell,los%20sistemas%20operativos%20GNU%2FLinux.)
 - [Comandos de la bash](https://devhints.io/bash)
+- [Como ver procesos en linux](https://www.hostinger.es/tutoriales/ver-procesos-en-linux#:~:text=Un%20proceso%20es%20la%20ejecuci%C3%B3n,varios%20procesos%20para%20diferentes%20tareas.)
+- [Procesos en linux](https://apuntes.de/linux-certificacion-lpi/los-procesos-de-linux/#gsc.tab=0)
