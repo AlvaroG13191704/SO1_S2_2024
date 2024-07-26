@@ -52,3 +52,5 @@
 - [Comandos de la bash](https://devhints.io/bash)
 - [Como ver procesos en linux](https://www.hostinger.es/tutoriales/ver-procesos-en-linux#:~:text=Un%20proceso%20es%20la%20ejecuci%C3%B3n,varios%20procesos%20para%20diferentes%20tareas.)
 - [Procesos en linux](https://apuntes.de/linux-certificacion-lpi/los-procesos-de-linux/#gsc.tab=0)
+- [Sheduling o planificación de procesos](https://fisop.github.io/apunte/scheduling.html)
+- [Procesos en linux, estados y prioridades](https://juncotic.com/procesos-en-linux-estados-y-prioridades/)
