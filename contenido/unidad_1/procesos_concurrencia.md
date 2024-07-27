@@ -256,9 +256,48 @@ En Linux, el planificador de procesos utiliza diferentes algoritmos de planifica
 
 ### Introducción a la programación concurrente
 
+#### ¿Qué es la programación concurrente?
+
+La programación concurrente es un paradigma de programación en el que se ejecutan múltiples tareas de forma simultánea, la programación concurrente se utiliza para realizar tareas concurrentes en un programa.
+
+La programación concurrente permite desarrollar software que ejecute eventos o circunstancias que están sucediendo al mismo tiempo. Los módulos concurrentes interactúan enviándose mensajes entre sí. 
+
+#### ¿Por qué es importante la programación concurrente?
+
+La programación concurrente es importante para mejorar la eficiencia de los recursos y maximizar el rendimiento en sistemas multiprocesador.
+
+Los procesadores de hoy en día tienen múltiples núcleos y múltiples hilos, lo que favorece notablemente este tipo de programación.
+
+#### Diferencia con el paralelismo
+
+La concurrencia dependiendo de los números de nucleos que tenga el procesador puede ser ejecutar tareas de manera simultanea y de forma independiente. Mientras que el paralelimos va de la mano, la idea es dividir una misma tarea en sub-tareas con la finalidad de que se ejecuten de manera simultanea pero que al final se unan para formar una sola tarea. De esta manera el resultado final del paralelismo si importa mientras que en la concurrencia no.
+
+![Concurrencia](./img/concurrencia.png)
+
+![Paralelismo](./img/paralelismo.png)
+
 ### Herramientas y tecnicas de concurrencia en Linux
 
+En linux se pueden utilizar diferentes herramientas y técnicas para programar de manera concurrente, algunas de las herramientas y técnicas más comunes son:
+
+- **Hilos**: Los hilos son procesos ligeros que comparten el mismo espacio de memoria y recursos que el proceso padre, los hilos son útiles para realizar tareas concurrentes en un programa. En C se pueden crear hilos utilizando la biblioteca `pthread.h`, la biblioteca `pthread.h` proporciona funciones y estructuras de datos para crear y gestionar hilos en un programa.
+
+- **Mutex**: Los mutex son semáforos binarios que se utilizan para sincronizar el acceso a recursos compartidos entre hilos, los mutex se utilizan para evitar condiciones de carrera en un programa.
+
 ### Problemas clásicos de concurrencia 
+
+#### Condiciones de carrera
+
+Las condiciones de carrera son situaciones en las que dos o más hilos intentan acceder a un recurso compartido al mismo tiempo, las condiciones de carrera pueden causar problemas como la corrupción de datos, la pérdida de datos, etc.
+
+#### Deadlock
+
+El deadlock es una situación en la que dos o más hilos están esperando a que el otro libere un recurso, el deadlock puede causar que los hilos se bloqueen y no puedan continuar con su ejecución.
+
+#### Starvation
+
+El starvation es una situación en la que un hilo no puede acceder a un recurso compartido porque otros hilos tienen prioridad sobre él, el starvation puede causar que un hilo no pueda continuar con su ejecución.
+
 
 ### Ejemplos
 
