@@ -167,24 +167,37 @@ También los procesos se pueden ejecutar utilizando la combinación de teclas, p
   Vamos a escribir un programa en C que maneje señales como las que se vio anteriormente.
 
     ```c
-    #include <stdio.h> # incluye la biblioteca estándar de entrada y salida
-    #include <stdlib.h> # incluye la biblioteca estándar
-    #include <signal.h> # incluye la biblioteca de señales
-    #include <unistd.h> # incluye la biblioteca de llamadas al sistema
+    #include <stdio.h> // incluye estándar de entrada y salida
+    #include <stdlib.h> // incluye funciones de la biblioteca estándar
+    #include <signal.h> // incluye funciones de manejo de señales
+    #include <unistd.h> // incluye llamadas al sistema
+
 
     void manejar_senal(int sig) {
-      printf("Señal recibida: %d\n", sig); # imprime el número de la señal recibida
-      exit(1); # termina el programa, el 1 indica que el programa terminó con error
+        printf("Señal %d recibida\n", sig); // imprime con la señal recibida
+        exit(1); // termina el programa
     }
 
     int main() {
-      signal(SIGINT, manejar_senal); # maneja la señal SIGINT
-      while(1) {
-        printf("Esperando señal...\n"); # imprime un mensaje
-        sleep(1); # espera 1 segundo
-      }
 
-      return 0; # termina el programa, el 0 indica que el programa terminó sin error
+        /* 
+            Esta función signal recibe dos argumentos, 
+            el primero es el número de la señal que se quiere manejar 
+            y el segundo es el nombre de la función que se ejecutará cuando se reciba la señal.
+
+            En este caso, la función manejar_senal se ejecutará cuando se reciba la señal SIGINT.
+            SIGINT es la señal que se envía al presionar Ctrl+C en la terminal.
+        */
+
+        signal(SIGINT, manejar_senal); // maneja la señal SIGINT
+
+        while(1) {
+            printf("Esperando señal...\n"); // imprime esperando señal
+            sleep(1); // espera 1 segundo
+        }
+
+
+        return 0; // termina el programa
     }
     ```
 ## 2.3. Diagrama de transición de procesos
@@ -302,4 +315,194 @@ El starvation es una situación en la que un hilo no puede acceder a un recurso 
 ### Ejemplos
 
 1. **Crear hilos en C**
+  ```c
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <pthread.h> // pthread library la que contiene las funciones para trabajar con hilos
+
+
+  /* 
+      Esta función es la que se ejecutará en cada hilo.
+      void* : significa que la función puede devolver cualquier tipo de dato.
+      Recibe un argumento de tipo void* que es un apuntador a cualquier tipo de dato.
+  */
+
+  void* funcion_hilo(void* arg) {
+
+      printf("Hola desde el hilo %ld\n", (long)arg); // imprime el id del hilo
+
+      pthread_exit(NULL); // termina el hilo
+  } 
+
+  /* 
+      Funcion con hilos más compleja. Ejecuta un loop de 100000000 iteraciones en cada hilo.
+  */
+
+  void* funcion_hilo_compleja(void* arg) {
+
+      for (int i = 0; i < 100000000; i++) {}
+
+      printf("Hola desde el hilo complejo %ld\n", (long)arg); // imprime el id del hilo
+
+      pthread_exit(NULL); // termina el hilo
+  }
+
+
+  /* 
+      Esta función es la que se ejecutará cada vez que se itere el loop
+  */
+  void function_secuencial(int i) {
+      printf("Hola desde la función secuencial %d\n", i); // imprime el valor de i
+  }
+
+  /* 
+      Esta función es la que se ejecutará cada vez que se itere el loop
+  */
+
+  void function_secuencial_compleja(int i) {
+      for (int i = 0; i < 100000000; i++) {}
+
+      printf("Hola desde la función compleja secuencial %d\n", i); // imprime el valor de i
+  }
+
+  int main() {
+
+      // tomar tiempo desde que inicia
+      clock_t start = clock();
+
+      pthread_t threads[5]; // declara un arreglo de 5 hilos
+
+      for (long i = 0; i < 5; i++) {
+          /* 
+              pthread_create recibe 4 argumentos:
+              1. Un apuntador a la variable pthread_t donde se guardará el id del hilo.
+              2. Un apuntador a la estructura de atributos del hilo. NULL si se quiere usar los valores por defecto.
+              3. La función que se ejecutará en el hilo.
+              4. El argumento que se le pasará a la función.
+          */
+          pthread_create(&threads[i], NULL, funcion_hilo_compleja, (void*)i); // crea un hilo y le pasa la función a ejecutar
+
+      }
+
+      for (long i = 0; i < 5; i++) {
+          /* 
+              pthread_join recibe 2 argumentos:
+              1. El id del hilo que se quiere esperar.
+              2. Un apuntador a la variable donde se guardará el valor de retorno de la función.
+
+              ¿Qué pasa si no se llama a pthread_join?
+              Si no se llama a pthread_join, el hilo seguirá ejecutándose en segundo plano y no se liberarán los recursos que utiliza.
+          */
+          pthread_join(threads[i], NULL); // espera a que el hilo termine
+      }
+
+      // tomar tiempo desde que termina
+      clock_t end = clock();
+
+      double time_spent = (double)(end - start) / CLOCKS_PER_SEC; // calcula el tiempo que tardó en ejecutarse
+
+      printf("Tiempo de ejecución usando hilos fue: %f\n", time_spent); // imprime el tiempo de ejecución
+
+
+      // iniciar otro tiempo
+      start = clock();
+
+      for (int i = 0; i < 5; i++) {
+          function_secuencial_compleja(i); // llama a la función secuencial
+      }
+
+      // tomar tiempo desde que termina
+      end = clock();
+
+      time_spent = (double)(end - start) / CLOCKS_PER_SEC; // calcula el tiempo que tardó en ejecutarse
+
+      printf("Tiempo de ejecución secuencial fue: %f\n", time_spent); // imprime el tiempo de ejecución
+
+
+      /* 
+          Vemos que el tiempo de ejecución usando hilos es mayor que el tiempo de ejecución secuencial.
+
+          ¿Por qué?
+
+          Porque el tiempo que tarda en crear y esperar a los hilos es mayor que el tiempo que se ahorra al ejecutar las funciones secuencialmente.    
+
+      */
+
+      return 0; // termina el programa
+  }
+
+  ```
 2. **Sincronización con Mutex**
+  ```c
+  # include <stdio.h>
+  # include <stdlib.h>
+  # include <pthread.h>
+
+  /* 
+      Creamos dos variables globales:
+      - contador: que será incrementada por los hilos.
+      - mutex: que será usada para proteger la variable contador.
+  */
+
+  int contador = 0 ;
+  pthread_mutex_t mutex ;
+
+  /* 
+      Esta función es la que se ejecutará en cada hilo.
+      void* : significa que la función puede devolver cualquier tipo de dato.
+      Recibe un argumento de tipo void* que es un apuntador a cualquier tipo de dato.
+
+      Dentro de la función se ejecuta un for loop de 1000000 iteraciones.
+
+      En cada iteración se incrementa la variable global contador.
+      Pero antes de incrementarla, se bloquea el mutex con pthread_mutex_lock.
+      Después de incrementarla, se desbloquea el mutex con pthread_mutex_unlock.
+
+      Lo que hace el mutex es asegurar que solo un hilo a la vez pueda incrementar la variable contador.
+      lock y unlock son funciones atómicas, es decir, no pueden ser interrumpidas por otro hilo.
+
+      Al final de la función se llama a pthread_exit(NULL) para terminar el hilo.
+
+      ¿Qué pasaría si no se usara el mutex?
+      - Si no se usara el mutex, los hilos podrían incrementar la variable contador al mismo tiempo.
+      - Esto podría llevar a que el valor de contador no sea el esperado.
+  */
+
+  void* incrementar(void *arg) {
+      for (int i = 0; i < 1000000; i++) {
+          pthread_mutex_lock(&mutex);
+          contador++;
+          pthread_mutex_unlock(&mutex);
+      }
+
+      pthread_exit(NULL);
+  }
+
+
+  /* 
+      En la función main se crean dos hilos con pthread_create.
+      Ambos hilos ejecutarán la función incrementar.
+      Después de crear los hilos, se espera a que terminen con pthread_join.
+
+      Al final se destruye el mutex con pthread_mutex_destroy y se imprime el valor de contador.
+  */
+
+  int main() {
+      pthread_t thread1, thread2;
+
+      pthread_mutex_init(&mutex, NULL); // Inicializamos el mutex 
+
+      pthread_create(&thread1, NULL, incrementar, NULL);
+      pthread_create(&thread2, NULL, incrementar, NULL);
+
+      pthread_join(thread1, NULL);
+      pthread_join(thread2, NULL);
+
+      pthread_mutex_destroy(&mutex); // Destruimos el mutex
+
+      printf("El contador es: %d\n", contador);
+
+
+      return 0;
+  }
+  ```

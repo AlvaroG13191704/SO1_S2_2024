@@ -6,17 +6,17 @@
 
 ### 1. Creación de Scripts en Bash
 
-- [1.1.1. Introducción a Bash](bash_scripts.md#1-2-1-introducción-a-bash)
-- [1.1.2. Estructura básica de un script](bash_scripts.md#1-2-2-estructura-básica-de-un-script)
-- [1.1.3. Variables y control de flujo](bash_scripts.md#1-2-3-variables-y-control-de-flujo)
-- [1.1.4. Scripts para administración del sistema](bash_scripts.md#1-2-4-scripts-para-administración-del-sistema)
+- [**1.1.1. Introducción a Bash**](bash_scripts.md#1-2-1-introducción-a-bash)
+- [**1.1.2. Estructura básica de un script**](bash_scripts.md#1-2-2-estructura-básica-de-un-script)
+- [**1.1.3. Variables y control de flujo**](bash_scripts.md#1-2-3-variables-y-control-de-flujo)
+- [**1.1.4. Scripts para administración del sistema**](bash_scripts.md#1-2-4-scripts-para-administración-del-sistema)
 
 
 ### 2. Procesos y Programación Concurrente
-- **1.2.1. Instalación/configuración de C y python en Linux**
-- **1.2.2. Manejo de procesos en Linux**
-- **1.2.3. Diagrama de transición de procesos**
-- **1.2.4. Programación concurrente en Linux**
+- [**1.2.1. Instalación/configuración de C y python en Linux**](procesos_concurrencia.md#21-instalaciónconfiguración-de-c-y-python-en-linux)
+- [**1.2.2. Manejo de procesos en Linux**](procesos_concurrencia.md#22-manejo-de-procesos-en-linux)
+- [**1.2.3. Diagrama de transición de procesos**](procesos_concurrencia.md#23-diagrama-de-transición-de-procesos)
+- [**1.2.4. Programación concurrente en Linux**](procesos_concurrencia.md#24-programación-concurrente-en-linux)
 
 ### 3. Rust
 

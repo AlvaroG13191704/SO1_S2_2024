@@ -1,5 +1,5 @@
 # SISTEMAS OPERATIVOS 1
-## Auxiliar : Alvaro Norberto García Meza
+## Auxiliare : Alvaro Norberto García Meza
 ## Sección A
 
 
