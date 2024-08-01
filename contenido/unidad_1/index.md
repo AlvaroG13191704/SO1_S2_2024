@@ -20,9 +20,9 @@
 
 ### 3. Rust
 
-- **1.3.1. Conceptos básicos de Rust**
-- **1.3.2. Conceptos únicos de Rust**
-- **1.3.3. ¿Qué podemos hacer con Rust?**
+- [**1.3.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.3.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.3.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
 
 ### 4. Módulos de Kernel
 
