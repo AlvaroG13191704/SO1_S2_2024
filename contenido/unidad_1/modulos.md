@@ -48,6 +48,13 @@ Vamos a listar los módulos de kernel en un sistema Linux. Para ello, podemos ut
 lsmod
 ```
 
+Obtener información sobre un módulo específico:
+
+```bash
+modinfo <nombre_modulo>
+```
+
+
 ## 3.2 Creación de módulos en Linux
 
 ### 3.2.1 Estructura básica de un módulo de kernel
@@ -80,21 +87,35 @@ Vamos a crear un módulo de kernel sencillo para imprimir "Hola, mundo!" en la c
 
 ```
 
-## 3.3 Comandos para administración de módulos de Kernel
+## 3.3 Introducción a System Calls
 
-### 3.3.1 Carga de módulos
+### 3.3.1 Definición y propósito
 
-### 3.3.2 Eliminar módulos
+Las llamadas al sistema (system calls) son una interfaz entre el software de usuario y el kernel. Permiten a los programas de usuario acceder a las funciones del kernel.
 
-### 3.3.3 Listar módulos
+Las llamadas al sistema son utilizadas para realizar tareas como la creación de procesos, la lectura y escritura de archivos, la gestión de memoria y la comunicación entre procesos.
 
-## 3.4 Introducción a System Calls
+Las llamadas al sistema son una forma de comunicación entre el software de usuario y el kernel. Cuando un programa de usuario necesita realizar una tarea que requiere privilegios de kernel, utiliza una llamada al sistema para solicitar al kernel que realice la tarea en su nombre.
 
-### 3.4.1 Definición y propósito
+Para ver al lista de llamadas al sistema en un sistema Linux, podemos utilizar el comando `man syscalls`
 
-### 3.4.2 Proceso de creación
+### Ejemplo
 
-## 3.5 Process Control Block (PCB)
+Vamos hacer un programa sencillo en C para imprimir el id del proceso actual.
+
+```c
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <stdio.h>
+
+int main() {
+    long id = syscall(SYS_gettid);
+    printf("Thread ID: %ld\n", id);
+    return 0;
+}
+```
+
+## 3.4 Process Control Block (PCB)
 
 
 ### Recursos
