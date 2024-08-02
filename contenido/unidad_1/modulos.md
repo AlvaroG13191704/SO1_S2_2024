@@ -278,11 +278,11 @@ Vamos hacer un programa sencillo en C para imprimir el id del proceso actual.
 
 ```c
 #include <unistd.h>
-#include <sys/syscall.h>
+#include <sys/syscall.h> // contiene las llamadas al sistema
 #include <stdio.h>
 
 int main() {
-    long id = syscall(SYS_gettid);
+    long id = syscall(SYS_gettid); // obtiene el id del proceso actual
     printf("Thread ID: %ld\n", id);
     return 0;
 }
@@ -290,6 +290,25 @@ int main() {
 
 ## 3.4 Process Control Block (PCB)
 
+### 3.4.1 Definición y propósito
 
-### Recursos
+Este tema no lo pudimos ver en el tema anterior, pero es importante mencionarlo.
+
+El PCB (Process Control Block) es una estructura de datos que contiene información sobre un proceso en un sistema operativo. El PCB se utiliza para almacenar información sobre el estado del proceso, la prioridad del proceso, los recursos asignados al proceso y otros datos relacionados con el proceso.
+
+El PCB se crea cuando se crea un proceso y se destruye cuando se termina el proceso. El PCB se almacena en la memoria del sistema operativo y se utiliza para gestionar el proceso.
+
+El PCB contiene información como:
+
+- El identificador del proceso.
+- El estado del proceso (en ejecución, listo, bloqueado).
+- La prioridad del proceso.
+- Los registros del procesador.
+- La información de la memoria.
+- Los recursos asignados al proceso.
+- Otros datos relacionados con el proceso.
+
+Como ejemplo vamos analizar la estructura `task_struct` que es la estructura que representa un proceso en el kernel de Linux.
+
+En el siguiente link pueden encontrar todos los atributos de la estructura [task_struct](https://docs.huihoo.com/doxygen/linux/kernel/3.7/structtask__struct.html)
 

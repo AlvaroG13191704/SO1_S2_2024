@@ -18,18 +18,20 @@
 - [**1.2.3. Diagrama de transición de procesos**](procesos_concurrencia.md#23-diagrama-de-transición-de-procesos)
 - [**1.2.4. Programación concurrente en Linux**](procesos_concurrencia.md#24-programación-concurrente-en-linux)
 
-### 3. Rust
+### 3. Módulos de Kernel
 
-- [**1.3.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.3.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.3.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
+- **1.3.1. ¿Qué son los módulos del kernel?**
+- **1.3.2. Creación de módulos en Linux**
+- **1.3.3. Introducción a System Calls**
+- **1.3.4. Process Control Block (PCB)**
 
-### 4. Módulos de Kernel
 
-- **1.4.1. Comandos para administración de módulos de Kernel**
-- **1.4.2. Creación de módulos en Linux**
-- **1.4.3. Introducción a System Calls**
-- **1.4.4. Process Control Block (PCB)**
+### 4. Rust
+
+- [**1.4.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.4.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.4.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
+
 
 ### 5. Virtualización del Sistema Operativo: Containers
 
