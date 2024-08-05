@@ -20,10 +20,10 @@
 
 ### 3. Módulos de Kernel
 
-- **1.3.1. ¿Qué son los módulos del kernel?**
-- **1.3.2. Creación de módulos en Linux**
-- **1.3.3. Introducción a System Calls**
-- **1.3.4. Process Control Block (PCB)**
+- [**1.3.1. ¿Qué son los módulos del kernel?**](modulos.md#31-qué-son-los-módulos-del-kernel)
+- [**1.3.2. Creación de módulos en Linux**](modulos.md#32-creación-de-módulos-en-linux)
+- [**1.3.3. Introducción a System Calls**](modulos.md#33-introducción-a-system-calls)
+- [**1.3.4. Process Control Block (PCB)**](modulos.md#34-process-control-block-pcb)
 
 
 ### 4. Rust
@@ -56,3 +56,6 @@
 - [Procesos en linux](https://apuntes.de/linux-certificacion-lpi/los-procesos-de-linux/#gsc.tab=0)
 - [Sheduling o planificación de procesos](https://fisop.github.io/apunte/scheduling.html)
 - [Procesos en linux, estados y prioridades](https://juncotic.com/procesos-en-linux-estados-y-prioridades/)
+- [Módulos del kernel](https://www.scaler.com/topics/linux-kernel-module/)
+- [System Calls](https://manybutfinite.com/post/system-calls/)
+- [PCB](https://www.baeldung.com/linux/pcb)

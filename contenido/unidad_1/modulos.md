@@ -8,11 +8,11 @@ El kernel como ya vimos es el puente entre el hardware y el resto de funciones d
 El kernel está formado por un fichero principal que redice en `/boot` y que se carga en memoria al arrancar el sistema. Sin embargo, el kernel no puede tener todos los drivers y funciones necesarias para todos los dispositivos que existen, por lo que se pueden añadir módulos al kernel para añadir funcionalidades.
 
 
-### 3.1.1 Definición y proposito
+### 3.1.1 Definición y propósito
 
-Los modulos de kernel son archivos que contienen código objeto que pueden extender las funcionalidades del kernel.
+Los módulo de kernel son archivos que contienen código objeto que pueden extender las funcionalidades del kernel.
 
-Estos modulos residen en `/lib/modules` y se pueden cargar y descargar en tiempo de ejecución.
+Estos módulo residen en `/lib/modules` y se pueden cargar y descargar en tiempo de ejecución.
 
 Son generalmente utilizados para brindar soporte a nuevos dispositivos de hardware o nuevos sistemas de ficheros, así como para agregar llamadas al sistema.
 
@@ -54,6 +54,17 @@ Obtener información sobre un módulo específico:
 modinfo <nombre_modulo>
 ```
 
+Vamos a ver tambíen que se encuentra en la carpeta `/lib/modules` de un sistema Linux.
+
+```bash
+ls /lib/modules/$(uname -r)
+```
+
+### Carpeta `/proc`
+
+La carpeta `/proc` es un sistema de ficheros virtual que contiene información sobre el sistema. En esta carpeta se pueden encontrar información sobre los procesos, la memoria, los dispositivos y otros aspectos del sistema.
+
+Cuando trabajemos con nuestros módulos de kernel, es posible que necesitemos crear archivos en la carpeta `/proc` para mostrar o leer información sobre el sistema facilmente.
 
 ## 3.2 Creación de módulos en Linux
 
@@ -270,7 +281,7 @@ Las llamadas al sistema son utilizadas para realizar tareas como la creación de
 
 Las llamadas al sistema son una forma de comunicación entre el software de usuario y el kernel. Cuando un programa de usuario necesita realizar una tarea que requiere privilegios de kernel, utiliza una llamada al sistema para solicitar al kernel que realice la tarea en su nombre.
 
-Para ver al lista de llamadas al sistema en un sistema Linux, podemos utilizar el comando `man syscalls`
+Para ver la lista de llamadas al sistema en un sistema Linux, podemos utilizar el comando `man syscalls`.
 
 ### Ejemplo
 
