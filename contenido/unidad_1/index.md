@@ -41,11 +41,12 @@
 - **1.5.4. Ventajas y desventajas de los contenedores**
 
 ### 6. Containers con Docker
-
-- **1.6.1. Instalación y configuración de Docker**
-- **1.6.2. Explicación del Docker Engine**
-- **1.6.3. Dockerfile y Multistages**
-- **1.6.4. Network de contenedores**
+- **1.6.1. Qué son los contenedores**
+- **1.6.2. Instalación y configuración de Docker**
+- **1.6.3. Explicación del Docker Engine**
+- **1.6.4. Dockerfile y Multistages**
+- **1.6.5. Network y volumenes de contenedores**
+- **1.6.6. Docker Compose**
 
 
 ## Recursos
