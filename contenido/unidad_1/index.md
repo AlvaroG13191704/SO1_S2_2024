@@ -25,29 +25,27 @@
 - [**1.3.3. Introducción a System Calls**](modulos.md#33-introducción-a-system-calls)
 - [**1.3.4. Process Control Block (PCB)**](modulos.md#34-process-control-block-pcb)
 
+### 4. Containers con Docker
+- [**1.4.1. Qué son los contenedores**](contenedores.md#4-contenedores-con-docker)
+- [**1.4.2. Instalación y configuración de Docker**](contenedores.md#42-instalación-y-configuración-de-docker)
+- [**1.4.3. Explicación del Docker Engine**](contenedores.md#43-explicación-del-docker-engine)
+- [**1.4.4. Dockerfile y Multistages**](contenedores.md#44-dockerfile-y-multistages)
+- **1.4.5. Network y volumenes de contenedores**
+- **1.4.6. Docker Compose**
 
-### 4. Rust
+### 5. Rust
 
-- [**1.4.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.4.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.4.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.5.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.5.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.5.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
 
+- 
+### 6. Virtualización del Sistema Operativo:
 
-### 5. Virtualización del Sistema Operativo: Containers
-
-- **1.5.1. Hipervisores**
-- **1.5.2. VMs y MicroVMs**
-- **1.5.3. Conceptos básicos de contenedores**
-- **1.5.4. Ventajas y desventajas de los contenedores**
-
-### 6. Containers con Docker
-- **1.6.1. Qué son los contenedores**
-- **1.6.2. Instalación y configuración de Docker**
-- **1.6.3. Explicación del Docker Engine**
-- **1.6.4. Dockerfile y Multistages**
-- **1.6.5. Network y volumenes de contenedores**
-- **1.6.6. Docker Compose**
-
+- **1.6.1. Hipervisores**
+- **1.6.2. VMs y MicroVMs**
+- **1.6.3. Conceptos básicos de contenedores**
+- **1.6.4. Ventajas y desventajas de los contenedores**
 
 ## Recursos
 
