@@ -368,16 +368,269 @@ CMD ["node", "server.js"]
 
 ## 4.5. Network y volumenes de contenedores
 
+El networking de los contenedores se refiere a la habilidad de conectar y comunicar otros contenedores o trabajos no relacionados a estos. 
+
 ### 4.5.1 Redes en Docker
 
-### 4.5.2 Volumenes en Docker
+Los contenedores tienen la red habilitada de forma predeterminada y pueden realizar conexiones salientes. Un contenedor no tiene información sobre a qué tipo de red está conectado. Un contenedor solo ve una interfaz de red con una dirección IP, una puerta de enlace, una tabla de enrutamiento, servicios DNS y otros detalles de red.
 
-### 4.5.3 Comandos de Docker Network y Docker Volumes
+Dentro de Docker se manejan varios tipos de redes, como la red bridge, la red host, la red overlay, la red macvlan, la red none, entre otras. Vamos a ver a detallar las más comunes y las que se utilizan con mayor frecuencia.
+
+- **Red bridge**: Es la red predeterminada de Docker. Los contenedores conectados a la red bridge pueden comunicarse entre sí y con el host. Los contenedores en la red bridge tienen una dirección IP privada y pueden exponer puertos a la red host.
+- **Red host**: Los contenedores conectados a la red host comparten la interfaz de red del host. Los contenedores en la red host pueden comunicarse con el host y con otros contenedores en la red host. Los contenedores en la red host no tienen una dirección IP privada y no pueden exponer puertos a la red host.
+- **Red overlay**: La red overlay es una red de superposición que se utiliza para conectar contenedores en diferentes hosts. Los contenedores en la red overlay pueden comunicarse entre sí y con otros contenedores en la red overlay.
+- **Red macvlan**: La red macvlan es una red de nivel 2 que se utiliza para conectar contenedores a la red física del host. 
+- **Red none**: La red none es una red aislada que se utiliza para conectar contenedores que no necesitan conectividad de red.
+
+Docker proporciona una serie de comandos para administrar las redes de contenedores. Algunos de los comandos más comunes son:
+
+- **docker network ls**: Lista las redes de Docker.
+```bash
+  # Lista las redes de Docker
+  docker network ls
+```
+- **Comando para crear nueva red**: Crea una nueva red
+```bash
+  # Crea una nueva red
+  docker network create -d <driver> <network_name>
+  # Ejemplo
+  docker network create -d bridge my_network
+```
+
+En el siguiente ejemplo vamos a correr un contenedor de redis y vamos ahcer un bind de un puerto del contenedor al puerto del host.
+
+```bash
+  # Correr un contenedor de redis
+  docker run -d --name redis example/redis --bind 127.0.0.1
+  # Correr un contenedor de redis-cli y conectarse al contenedor de redis
+  docker run --rm -it --network container:redis example/redis-cli -h 127.0.0.1
+```
+
+Por defecto cuando se crea o corre un contenedor usando el `docker create` or `docker run`, el contenedor se conecta a la red bridge. Pero estos no exponen los puertos al mundo exterior. Para hacer esto posible se usan las banderas `--publish` o `-p` para hacer los puertos accesibles fuera del bridge. Esto crea una regla de firewall en el host, redirigiendo el tráfico del puerto del host al puerto del contenedor.
+
+| Bandera | Descripción|
+|---------|------------|
+| `-p 8080:80` | Publica el puerto 80 del contenedor en el puerto 8080 del host |
+| `-p 192.168.1.100:8080:80` | Publica el puerto 80 del contenedor en el puerto 8080 del host en la dirección IP
+
+Por último, para comunicar contenedores entre si, basta y sobra que esten en la misma red que usualmente es la red bridge. 
+
+```bash
+  # Crear una red
+  docker network create my_network
+  # Correr un contenedor de nginx en la red my_network
+  docker run -d --name nginx --network my_network nginx
+  # Correr un contenedor de alpine en la red my_network
+  docker run -it --network my_network alpine
+```
+
+### 4.5.2 Volúmenes en Docker
+
+Los volúmenes son el mecanismo preferido para persistir datos generados por y usados por contenedores. Si bien los volúmenes son independientes de la vida del contenedor, los datos que se almacenan en un volumen persisten incluso después de que el contenedor se detiene o se elimina.
+
+La ventajas de usar volúmenes son:
+- Los volúmenes son faciles de respaldar y restaurar.
+- Se pueden administrar con la CLI de docker
+- Los volumenes funcionan tanto para Linux como Windows
+- Los volumenes pueden ser compartidos entre contenedores
+
+Los volúmenes se pueden no aumentan el tamaño de la imagen de Docker, ya que los volúmenes se almacenan fuera del sistema de archivos de la imagen de Docker. Los volúmenes se pueden montar en cualquier directorio del sistema de archivos del contenedor.
+
+![Volumenes en Docker](./img/types-of-mounts-volume.webp)
+
+**Comandos para crear y manejar volúmenes**
+
+- **docker volume ls**: Lista los volúmenes de Docker.
+```bash
+  # Lista los volúmenes de Docker
+  docker volume ls
+```
+- **docker volume create**: Crea un nuevo volumen de Docker.
+```bash
+  # Crea un nuevo volumen de Docker
+  docker volume create my_volume
+```
+
+- **docker volume inspect**: Inspecciona un volumen de Docker.
+```bash
+  # Inspecciona un volumen de Docker
+  docker volume inspect my_volume
+```
+
+- **docker volume rm**: Elimina un volumen de Docker.
+```bash
+  # Elimina un volumen de Docker
+  docker volume rm my_volume
+```
+
+Ahora vamos a iniciar un contenedor con un volumen
+
+```bash
+  # Correr un contenedor con un volumen
+docker run -d \
+  --name devtest \
+  -v myvol2:/app \
+  nginx:latest
+```
 
 ## 4.6. Docker Compose
 
 ### 4.6.1 ¿Qué es Docker Compose?
 
+Docker Compose es una herramienta que se utiliza para definir y ejecutar aplicaciones de varios contenedores de Docker. Docker Compose utiliza un archivo YAML para definir la configuración de la aplicación y los servicios que se van a ejecutar en los contenedores de Docker.
+
+Compose trabaja en todos los entornos: producción, staging, desarrollo, pruebas, así como en máquinas locales.
+
+Por defecto Docker Compose no viene instalado con Docker, por lo que se debe instalar por separado. Para instalar Docker Compose, se recomienda seguir la documentación oficial de Docker Compose.
+
+**Comandos esenciales para el manejo de la CLI**
+
+- **docker-compose up**: Crea y arranca los contenedores de la aplicación.
+```bash
+  # Crea y arranca los contenedores de la aplicación
+  docker-compose up
+```
+
+- **docker-compose down**: Detiene y elimina los contenedores de la aplicación.
+```bash
+  # Detiene y elimina los contenedores de la aplicación
+  docker-compose down
+```
+
+- **docker-compose ps**: Lista los contenedores de la aplicación.
+```bash
+  # Lista los contenedores de la aplicación
+  docker-compose ps
+```
+
+- **docker-compose logs**: Muestra los logs de los contenedores de la aplicación.
+```bash
+  # Muestra los logs de los contenedores de la aplicación
+  docker-compose logs
+```
+
 ### 4.6.2 Sintaxis y estructura de un archivo docker-compose.yml
 
-### 4.6.3 Comandos de Docker Compose
+La sintaxis de un archivo docker-compose.yml es muy similar a la de un Dockerfile. Un archivo docker-compose.yml se compone de una serie de servicios que se van a ejecutar en los contenedores de Docker. Cada servicio se compone de una serie de opciones y configuraciones que se utilizan para definir cómo se va a ejecutar el servicio en el contenedor de Docker. 
+
+Dentro de un archivo docker-compose.yml se pueden definir varias opciones y configuraciones, como el nombre del servicio, la imagen de Docker que se va a utilizar, los puertos que se van a exponer, las variables de entorno, los volúmenes, etc.
+
+Ahora vamos a analizar un archivo docker-compose.yml que se encarga de definir la configuración de una aplicación de varios contenedores de Docker.
+
+```yaml
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # Node.js Web Application Service
+  webapp:
+    image: node:14
+    container_name: webapp_container
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URL: mongodb://root:example@mongodb:27017/mydatabase
+
+# Volumes
+volumes:
+  mongo-data:
+```
+
+Comencemoz a analizar el archivo docker-compose.yml.
+
+- **version**: Especifica la versión de la sintaxis de Docker Compose que se va a utilizar. La versión más reciente de Docker Compose es la 3.8.
+- **services**: Especifica los servicios que se van a ejecutar en los contenedores de Docker. Cada servicio se compone de una serie de opciones y configuraciones que se utilizan para definir cómo se va a ejecutar el servicio en el contenedor de Docker.
+
+  ```yaml
+  services:
+    # MongoDB Service
+    mongodb:
+      image: mongo:latest
+      container_name: mongodb_container
+      ports:
+        - "27017:27017"
+      volumes:
+        - mongo-data:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+  ```
+  Aquí se define un servicio de MongoDB que se va a ejecutar en un contenedor de Docker. El servicio de MongoDB se compone de las siguientes opciones y configuraciones:
+  - **image**: Especifica la imagen de Docker que se va a utilizar para el servicio de MongoDB.
+  - **container_name**: Especifica el nombre del contenedor de Docker que se va a crear para el servicio de MongoDB.
+  - **ports**: Especifica los puertos que se van a exponer en el contenedor de Docker.
+  - **volumes**: Especifica los volúmenes que se van a montar en el contenedor de Docker.
+  - **environment**: Especifica las variables de entorno que se van a definir en el contenedor de Docker.
+
+  ```yaml
+    # Node.js Web Application Service
+    webapp:
+      image: node:14
+      container_name: webapp_container
+      working_dir: /app
+      volumes:
+        - .:/app
+      ports:
+        - "3000:3000"
+      command: sh -c "npm install && npm start"
+      depends_on:
+        - mongodb
+      environment:
+        MONGO_URL: mongodb://root:example@mongodb:27017/mydatabase
+  ```
+  Aquí se define un servicio de una aplicación web en Node.js que se va a ejecutar en un contenedor de Docker. El servicio de la aplicación web en Node.js se compone de las siguientes opciones y configuraciones:
+  - **image**: Especifica la imagen de Docker que se va a utilizar para el servicio de la aplicación web en Node.js.
+  - **container_name**: Especifica el nombre del contenedor de Docker que se va a crear para el servicio de la aplicación web en Node.js.
+  - **working_dir**: Especifica el directorio de trabajo en el contenedor de Docker.
+  - **volumes**: Especifica los volúmenes que se van a montar en el contenedor de Docker. El punto (.) se refiere al directorio actual y los :/app se refiere al directorio /app en el contenedor.
+  -  **ports**: Especifica los puertos que se van a exponer en el contenedor de Docker.
+  -  **command**: Especifica el comando que se va a ejecutar cuando se inicie el contenedor de Docker.
+  -  **depends_on**: Especifica los servicios en los que depende el servicio de la aplicación web en Node.js.
+  -  **environment**: Especifica las variables de entorno que se van a definir en el contenedor de Docker.
+  
+- **volumes**: Especifica los volúmenes que se van a utilizar en los contenedores de Docker. Los volúmenes se definen en una sección de volúmenes y se pueden montar en los contenedores de Docker.
+  
+    ```yaml
+    # Volumes
+    volumes:
+      mongo-data:
+    ```
+    Aquí se define un volumen de Docker llamado mongo-data que se va a utilizar en los contenedores de Docker.
+
+
+### Ejemplo
+
+Por útlimo, vamos a realizar un ejemplo, vamos a construir un servicio con FastAPI y un volumen que guarde los datos recibidos por el servicio en formato JSON.
+
+Todo el código de este ejemplo lo pueden encontrar en la carpeta de ejemplos de la unidad 1
+
+Para iniciar, vamos a crear un entorno virtual y vamos a instalar las dependencias necesarias para el servicio.
+
+```bash
+  # Crear un entorno virtual
+  python3 -m venv venv
+  # Activar el entorno virtual
+  source venv/bin/activate
+  # Instalar las dependencias
+  pip install "fastapi[standard]"
+```
+
+Ahora vamos a crear el Dockerfile para el servicio de FastAPI.
+
