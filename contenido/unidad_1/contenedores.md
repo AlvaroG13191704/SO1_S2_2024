@@ -488,25 +488,25 @@ Por defecto Docker Compose no viene instalado con Docker, por lo que se debe ins
 - **docker-compose up**: Crea y arranca los contenedores de la aplicación.
 ```bash
   # Crea y arranca los contenedores de la aplicación
-  docker-compose up
+  docker compose up
 ```
 
 - **docker-compose down**: Detiene y elimina los contenedores de la aplicación.
 ```bash
   # Detiene y elimina los contenedores de la aplicación
-  docker-compose down
+  docker compose down
 ```
 
 - **docker-compose ps**: Lista los contenedores de la aplicación.
 ```bash
   # Lista los contenedores de la aplicación
-  docker-compose ps
+  docker compose ps
 ```
 
 - **docker-compose logs**: Muestra los logs de los contenedores de la aplicación.
 ```bash
   # Muestra los logs de los contenedores de la aplicación
-  docker-compose logs
+  docker compose logs
 ```
 
 ### 4.6.2 Sintaxis y estructura de un archivo docker-compose.yml
