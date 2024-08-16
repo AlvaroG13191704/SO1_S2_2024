@@ -1,0 +1,35 @@
+[
+    {
+        "pid": 0,
+        "container_id": "string",
+        "name": "string",
+        "vsz": 0,
+        "rss": 0,
+        "memory_usage": 0.0,
+        "cpu_usage": 0.0,
+        "action": "string",
+        "timestamp": "string"
+    },
+    {
+        "pid": 1234,
+        "container_id": "abc123",
+        "name": "example_container",
+        "vsz": 204800,
+        "rss": 102400,
+        "memory_usage": 50.0,
+        "cpu_usage": 10.0,
+        "action": "start",
+        "timestamp": "2023-10-01T12:00:00Z"
+    },
+    {
+        "pid": 5678,
+        "container_id": "def456",
+        "name": "another_container",
+        "vsz": 409600,
+        "rss": 204800,
+        "memory_usage": 75.0,
+        "cpu_usage": 20.0,
+        "action": "stop",
+        "timestamp": "2023-10-01T12:05:00Z"
+    }
+]

@@ -634,3 +634,56 @@ Para iniciar, vamos a crear un entorno virtual y vamos a instalar las dependenci
 
 Ahora vamos a crear el Dockerfile para el servicio de FastAPI.
 
+```Dockerfile
+# 
+FROM python:3.9-slim
+
+# 
+WORKDIR /code
+
+# 
+COPY ./requirements.txt /code/requirements.txt
+
+# 
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# 
+COPY ./ /code/
+
+# 
+CMD ["fastapi", "run", "main.py", "--port", "8000"]
+```
+
+Luego vamos a crear la imagen y levantar el contenedor para ver que todo este funcionando bien
+
+```bash
+# crear imagen
+sudo docker build -t py_serice .
+# crear contenedor
+sudo docker run -d --name py_container -p 8000:8000 py_service
+# ver los logs
+sudo docker logs py_container
+```
+
+Luego de verificar que todo este funcionando bien. Vamos a crear un Docker compose con
+
+```yaml
+services:
+  python_service:
+    build: ./
+    container_name: python_container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/code/logs
+    command: ["fastapi", "run", "main.py", "--port", "8000"]
+```
+
+Luego corremos estos comandos en la bash para crear nuestro compose
+
+```bash
+# ejecutar compose
+sudo docker compose up -d
+# ver los contenedores relacionados
+sudo docker compose ps
+``` 
