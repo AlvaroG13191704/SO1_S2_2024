@@ -30,8 +30,8 @@
 - [**1.4.2. Instalación y configuración de Docker**](contenedores.md#42-instalación-y-configuración-de-docker)
 - [**1.4.3. Explicación del Docker Engine**](contenedores.md#43-explicación-del-docker-engine)
 - [**1.4.4. Dockerfile y Multistages**](contenedores.md#44-dockerfile-y-multistages)
-- **1.4.5. Network y volumenes de contenedores**
-- **1.4.6. Docker Compose**
+- [**1.4.5. Network y volumenes de contenedores**](contenedores.md#45-network-y-volumenes-de-contenedores)
+- [**1.4.6. Docker Compose**](contenedores.md#46-docker-compose)
 
 ### 5. Rust
 
@@ -58,3 +58,8 @@
 - [Módulos del kernel](https://www.scaler.com/topics/linux-kernel-module/)
 - [System Calls](https://manybutfinite.com/post/system-calls/)
 - [PCB](https://www.baeldung.com/linux/pcb)
+- [Docker](https://docs.docker.com/engine/install/)
+- [Docker Network](https://docs.docker.com/engine/network/)
+- [Docker volumnes](https://docs.docker.com/engine/storage/volumes/)
+- [Docker compose](https://docs.docker.com/compose/)
+- 

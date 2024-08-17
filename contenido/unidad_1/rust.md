@@ -1,6 +1,25 @@
 # 4. Rust
 
-## 1.4.1. Conceptos básicos de Rust
+
+## 1.4.1. Instalación de Rust
+
+Siempre es bueno seguir lo que la [documentacion oficial de Rust dicta](https://www.rust-lang.org/tools/install). Pero en este caso la instalación de Rust para Linux es muy sencilla y únicamente se necesitan estos comandos.
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Este comando aparte de instalar Rust, instala Rustup es como el administrador no solo del lenguaje sino de otras herramientas, como las del compilado, documentación y manejo de crates.
+
+Para verificar que se haya instalado todo correctamente vamos a correr los siguientes comandos.
+
+```bash
+rustc --version
+```
+
+Si por alguna razón no llegara a funcionar este comando, seguramente es que no se agregaron al PATH. Para gestionar ese tema les recomiendo seguir la [documentación de instalación del PATH](https://doc.rust-lang.org/book/ch01-01-installation.html)
+
+## 1.4.2. Conceptos básicos de Rust
 
 ### Introducción a Rust
 
@@ -11,6 +30,23 @@
   - Rust se centra en la seguridad, velocidad y concurrencia.
   - Busca ofrecer un sistema de tipos que prevenga errores de memoria y condiciones de carrera sin necesidad de un recolector de basura.
 
+### Inicio de un proyecto en Rust
+
+Existen dos maneras de poder compilar código en Rust, la más sencilla es crear un archivo con la extensión `.rs` y luego ejecutar el comando `rustc main.rs`.
+
+La segunda manera y la recomendada es utilizar **Cargo**, cargo es el manejador de paquetes en Rust, muchos de los **Rustaceans** usan esta herramienta para manejar sus paquetes propios como de terceros. Usualmente cargo ya viene instalado, para validar debemos escribir esto en la consola:
+
+```bash
+cargo --version
+```
+
+**Para iniciar un proyecto de rust solo basta con escribir el siguiente comando**
+
+```bash
+cargo new hello_cargo
+cd hello_cargo
+```
+
 ### Sintaxis básica
 
 - **Variables y constantes**
@@ -18,74 +54,74 @@
   - Se puede hacer una variable mutable con `mut`.
   - Las constantes se declaran con `const` y deben tener un tipo explícito.
 
-```rust
-let x = 5;
-let mut y = 10;
-const MAX_POINTS: u32 = 100_000;
-```
+    ```rust
+    let x = 5;
+    let mut y = 10;
+    const MAX_POINTS: u32 = 100_000;
+    ```
 
 - **Tipos de datos primitivos**
- - Enteros: i8, i16, i32, i64, u8, u16, u32, u64
- - Punto flotante: f32, f64
- - Booleano: bool
- - Caracteres: char
-   
+   - Enteros: i8, i16, i32, i64, u8, u16, u32, u64
+   - Punto flotante: f32, f64
+   - Booleano: bool
+   - Caracteres: char
+     
 - **Operadores y expresiones**
- - Aritméticos: +, -, *, /, %
- - Comparación: ==, !=, >, <, >=, <=
- - Lógicos: &&, ||, !
+   - Aritméticos: +, -, *, /, %
+   - Comparación: ==, !=, >, <, >=, <=
+   - Lógicos: &&, ||, !
 
 ### Control de flujo
 - **Condicionales**
  - Uso de if, else if, y else
 
-```rust
-let number = 6;
-if number % 4 == 0 {
-    println!("number is divisible by 4");
-} else if number % 3 == 0 {
-    println!("number is divisible by 3");
-} else {
-    println!("number is not divisible by 4, 3, or 2");
-}
-```
+    ```rust
+    let number = 6;
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+    ```
 
 - **Bucles**
  - loop: Ejecuta un bloque de código repetidamente hasta que se interrumpa con break.
  - while: Ejecuta un bloque de código mientras una condición sea verdadera.
  - for: Itera sobre una colección de elementos.
 
-```rust
-let mut count = 0;
-loop {
-    count += 1;
-    if count == 3 {
-        break;
+    ```rust
+    let mut count = 0;
+    loop {
+        count += 1;
+        if count == 3 {
+            break;
+        }
     }
-}
 
-while count != 0 {
-    count -= 1;
-}
+    while count != 0 {
+        count -= 1;
+    }
 
-for number in 1..4 {
-    println!("{}", number);
-}
-```
+    for number in 1..4 {
+        println!("{}", number);
+    }
+    ```
 
 ### Funciones
 - **Definición y llamada a funciones**
 
-```rust
-fn main() {
-    let result = add(5, 3);
-    println!("Result: {}", result);
-}
+    ```rust
+    fn main() {
+        let result = add(5, 3);
+        println!("Result: {}", result);
+    }
 
-fn add(x: i32, y: i32) -> i32 {
-    x + y
-}
-```
+    fn add(x: i32, y: i32) -> i32 {
+        x + y
+    }
+    ```
 
 - **Parámetros y retorno de valores**
  - Las funciones pueden recibir parámetros y devolver valores.
