@@ -1,7 +1,7 @@
-# 4. Rust
+# 5. Rust
 
 
-## 1.4.1. Instalación de Rust
+## 1.5.1. Instalación de Rust
 
 Siempre es bueno seguir lo que la [documentacion oficial de Rust dicta](https://www.rust-lang.org/tools/install). Pero en este caso la instalación de Rust para Linux es muy sencilla y únicamente se necesitan estos comandos.
 
@@ -19,7 +19,7 @@ rustc --version
 
 Si por alguna razón no llegara a funcionar este comando, seguramente es que no se agregaron al PATH. Para gestionar ese tema les recomiendo seguir la [documentación de instalación del PATH](https://doc.rust-lang.org/book/ch01-01-installation.html)
 
-## 1.4.2. Conceptos básicos de Rust
+## 1.5.2. Conceptos básicos de Rust
 
 ### Introducción a Rust
 
@@ -47,6 +47,21 @@ cargo new hello_cargo
 cd hello_cargo
 ```
 
+La estructura que maneja cargo es la siguiente:
+
+```bash
+hello_cargo
+├── Cargo.toml
+└── src
+    └── main.rs
+```
+
+`Cargo.toml` es el archivo de configuración de nuestro proyecto, en el se especifican las dependencias y la información del proyecto.
+
+`src/main.rs` es el archivo principal de nuestro proyecto, en el se escribe el código de nuestro programa.
+
+**Con esto en mente**, ya podemos comenzar con conceptos básicos de Rust.
+
 ### Sintaxis básica
 
 - **Variables y constantes**
@@ -60,20 +75,83 @@ cd hello_cargo
     const MAX_POINTS: u32 = 100_000;
     ```
 
-- **Tipos de datos primitivos**
-   - Enteros: i8, i16, i32, i64, u8, u16, u32, u64
-   - Punto flotante: f32, f64
-   - Booleano: bool
-   - Caracteres: char
-     
-- **Operadores y expresiones**
-   - Aritméticos: +, -, *, /, %
-   - Comparación: ==, !=, >, <, >=, <=
-   - Lógicos: &&, ||, !
+- **Tipos de datos primitivos**: Rust maneja una gran variedad de primitivos de los cuales son:
+- **Enteros con signo (signed)**: i8, i16, i32, i64, i128, isize
+- **Enteros sin signo (unsigned)**: u8, u16, u32, u64, u128, usize
+- **Punto flotante**: f32, f64
+- **Booleano**: bool
+- **Carácter**: char
+- **Compuestos**: tuplas y arreglos
+
+    ```rust
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+    let arr = [1, 2, 3, 4, 5];
+    ```
+- **Arrays y Slices**: Los arrays son de tamaño fijo y los slices son una vista de un array.
+
+    ```rust
+    let arr: [i32; 5] = [1, 2, 3, 4, 5]; // Array de 5 elementos
+    let slice = &arr[1..3];
+    ```
+- **Strings**: Rust maneja strings de dos formas: String y &str. Los strings son UTF-8 válidos y se pueden crear de varias formas. Mientras que &str es un slice de un string. Los String son mutables y los &str son inmutables. Eso quiere decir que los String se guardan en el heap y los &str en el stack.
+
+    ```rust
+    let s1 = String::from("hello");
+    let s2 = "world";
+    let s3 = format!("{} {}", s1, s2);
+    let s4: &str = &s1;
+    ```
+- **Structs**: Los structs son tipos de datos personalizados que permiten agrupar datos de diferentes tipos.
+
+    ```rust
+    struct User {
+        username: String,
+        email: String,
+        sign_in_count: u64,
+        active: bool,
+    }
+
+    fn main() {
+        let user1 = User {
+            username: String::from("user1"),
+            email: String::from("prueba@gmail.com"),
+            sign_in_count: 1,
+            active: true,
+        };
+    }
+    ```
+- **Enums**: Los enums permiten definir un tipo que puede ser uno de varios valores. Otra forma de entender los enums son las variantes que puede llegar a tener un tipo.
+
+    ```rust
+    enum IpAddrKind {
+        V4,
+        V6,
+    }
+
+    struct IpAddr {
+        kind: IpAddrKind,
+        address: String,
+    }
+
+    fn main() {
+        let four = IpAddrKind::V4;
+        let six = IpAddrKind::V6;
+
+        let home = IpAddr {
+            kind: IpAddrKind::V4,
+            address: String::from("127.0.0.1"),
+        };
+
+        let loopback = IpAddr {
+            kind: IpAddrKind::V6,
+            address: String::from("::1"),
+        };
+    }
+    ```
 
 ### Control de flujo
 - **Condicionales**
- - Uso de if, else if, y else
+   - Uso de if, else if, y else
 
     ```rust
     let number = 6;
@@ -87,9 +165,9 @@ cd hello_cargo
     ```
 
 - **Bucles**
- - loop: Ejecuta un bloque de código repetidamente hasta que se interrumpa con break.
- - while: Ejecuta un bloque de código mientras una condición sea verdadera.
- - for: Itera sobre una colección de elementos.
+   - loop: Ejecuta un bloque de código repetidamente hasta que se interrumpa con break.
+   - while: Ejecuta un bloque de código mientras una condición sea verdadera.
+   - for: Itera sobre una colección de elementos.
 
     ```rust
     let mut count = 0;
@@ -111,276 +189,192 @@ cd hello_cargo
 
 ### Funciones
 - **Definición y llamada a funciones**
+  - Las funciones se definen con fn.
+  - En Rust se maneja el concepto de snake_case para nombrar funciones y variables.
 
     ```rust
     fn main() {
-        let result = add(5, 3);
-        println!("Result: {}", result);
+        say_hello();
     }
 
-    fn add(x: i32, y: i32) -> i32 {
-        x + y
-    }
-    ```
-
-- **Parámetros y retorno de valores**
- - Las funciones pueden recibir parámetros y devolver valores.
- - El tipo de retorno se especifica con ->.
-
-- **Módulos y paquetes**
- - Organización del código en módulos
- - Los módulos permiten organizar el código en archivos y carpetas.
- - Se declaran con mod.
-
-```rust
-mod my_module {
-    pub fn say_hello() {
+    fn say_hello() {
         println!("Hello!");
     }
-}
+    ```
+- **Parámetros y retorno de valores**
+   - Las funciones pueden recibir parámetros y devolver valores.
+   - El tipo de retorno se especifica con ->.
+   - Muchas funciones en Rust pueden o no manejar la palabra reservada return. Con Rust se puede omitir el return.
+        ```rust
+        fn main() {
+            let result = add(5, 3);
+            println!("Result: {}", result);
+        }
 
+        fn add(x: i32, y: i32) -> i32 {
+            x + y
+        }
+        ```
+
+
+## 1.5.3 Conceptos avanzados 
+
+
+
+### Ownership
+
+Rust es un lenguaje muy especial ya que cuentan con características únicas como es el Ownership. Pero antes de explicar que es el Ownership, es importante entender como otros lenguajes manejan la memoria.
+
+- **Manejo de memoria en otros lenguajes**
+  - **C**: En C se maneja la memoria de forma manual, se debe liberar la memoria manualmente.
+  - **C++**: En C++ se maneja la memoria de forma manual, pero se pueden usar punteros inteligentes.
+  - **Java, C#, Python**: Estos lenguajes cuentan con un recolector de basura que se encarga de liberar la memoria.
+
+Una forma sencilla de entender como el Garbage Collector funciona es que se encarga de liberar la memoria que ya no se necesita. Pero en Rust no se cuenta con un recolector de basura, en su lugar se cuenta con Ownership.
+
+**Entiendiendo Ownership**
+
+Con el uso de este concepto, hace que Rust sea un lenguaje seguro y rápido sin la necesidad de un GC.
+
+**Reglas de Ownership**
+- Cada valor en Rust tiene una variable que es su dueño.
+- Solo puede haber un dueño a la vez.
+- Cuando el dueño sale del alcance, el valor se libera.
+
+Con esto en mente vamos a ver un ejemplo de como se maneja la memoria en Rust.
+
+```rust
 fn main() {
-    my_module::say_hello();
+    {                    // s no es válido aquí, no está declarado todavía
+        let s = String::from("hello");   // s es válido desde este punto
+    }                   // s ya no es válido
+
 }
 ```
 
-- **Uso de Cargo para gestión de paquetes**
- - Cargo es la herramienta de gestión de paquetes y construcción de Rust.
- - Cargo.toml es el archivo de configuración donde se especifican las dependencias.
+Cosas a tomar en cuenta acá es que cuando s sale del alcance, Rust se encarga de liberar la memoria. Esto se hace con un concepto llamado Drop, que se encarga de liberar la memoria. Rust lo que hace en esta parte es que una vez deja de ser válida, se libera memoria.
+
+Por ejemplo, si usualmente cuando vemos esto
 
 ```rust
-[dependencies]
-rand = "0.8"
+let x = 5;
+let y = x;
 ```
 
-## 1.4.2. Conceptos únicos de Rust
-### Propiedad y préstamos
-- **Sistema de propiedad y cómo funciona**
- - Cada valor en Rust tiene una única propiedad.
- - Cuando el propietario sale de su alcance, el valor se libera.
+Lo que muchos lenguajes y Rust hacen es que se copia el valor de x a y. Esto es posible porque estamos hablando de un tipo primitivo estatico que se encuentra en el stack. Pero si hablamos de un tipo compuesto como un String, Rust no copia el valor, sino que mueve la referencia a la memoria.
 
 ```rust
 let s1 = String::from("hello");
-let s2 = s1; // s1 ya no es válido
-
-println!("{}", s2); // Esto funciona
+let s2 = s1;
 ```
 
-- **Préstamos (borrowing) y referencias (references)**
- - Se pueden tomar referencias a los valores sin tomar la propiedad.
- - Las referencias se crean con &.
+En esta figura, podemos ver lo que realmente Rust hace, en el Stack almacenamos información de S1 como el puntero, la longitud y la capacitdad. Y en el Heap almacenamos el valor de "hello". 
+![Ownership](./img/ownership.png)
+
+Entonces cuando nosotros hacemos el `let s2 = s1`, s2 ahora apunta al mismo puntero que S1.
+
+![Ownership](./img/ownership2.png)
+
+Pero si nos damos cuenta esto va a provocar un error, ya que tendriamos lo que se conoce como un double free. **Para evitar esto Rust invalida a S1, es decir, S1 ya no es válida.**
+
+Rust lo que nos dice ahora es que se realizo un movimiento de la memoria, es decir, S1 ya no es válida y S2 es la que tiene la referencia a la memoria.
+
+
+**Funciones y Ownership**
+
+El mecanismo es muy similar a lo que vimos anteriormente, cuando pasamos un valor a una función, Rust mueve la referencia a la memoria.
 
 ```rust
-let s1 = String::from("hello");
-let len = calculate_length(&s1);
+fn main() {
+    let s = String::from("hello");  // s entra en el ámbito
 
-fn calculate_length(s: &String) -> usize {
+    takes_ownership(s);             // S es movido dentro de la función
+                                    // s ya no es válido aquí
+
+    let x = 5;                      // x entra en el ámbito
+
+    makes_copy(x);                  // x se copia dentro de la función
+                                    // x sigue siendo válido aquí porque i32 es Copy
+
+} // Here, x goes out of scope, then s. But because s's value was moved, nothing
+  // special happens.
+
+fn takes_ownership(some_string: String) { // some_string entra en el ámbito
+    println!("{some_string}");
+} // Aquí, some_string sale del alcance y `drop` es llamado. El espacio en memoria es liberado.
+
+fn makes_copy(some_integer: i32) { // some_integer entra en el ámbito
+    println!("{some_integer}");
+} // Aquí, some_integer sale del alcance. Nada especial sucede.
+```
+
+**Retorno de valores**
+
+Cuando una función retorna un valor, Rust también mueve la referencia a la memoria.
+
+```rust
+fn main() {
+    let s1 = gives_ownership();         // gives_ownership mueve su valor a s1
+
+    let s2 = String::from("hello");     // s2 entra en el ámbito
+
+    let s3 = takes_and_gives_back(s2);  // s2 es movido dentro de
+                                        // takes_and_gives_back, que también devuelve
+                                        // su valor a s3
+}
+
+fn gives_ownership() -> String {             // gives_ownership será movido a s1
+
+    let some_string = String::from("yours"); // some_string comes into scope
+
+    some_string                              // some_string es devuelto y se mueve a la función que llama
+}
+
+// This function takes a String and returns one
+fn takes_and_gives_back(a_string: String) -> String { // a_string entra en el ámbito
+
+    a_string  // a_string se devuelve y se mueve a la función que llama
+}
+```
+
+**Referencias y Borrowing**
+
+Para poder evitar que Rust mueva la referencia a la memoria, podemos utilizar lo que se conoce como referencias. Las referencias permiten que múltiples partes del código accedan a los mismos datos sin necesidad de mover la referencia.
+
+En el ejemplo anterior vimos que para obtener el tamaño de un String se tenia que regresar su tamaño y luego el String. Pero con las referencias podemos hacer que la función no mueva la referencia a la memoria.
+
+```rust
+fn main() {
+    let s1 = String::from("hello");
+
+    let len = calculate_length(&s1);
+
+    println!("The length of '{}' is {}.", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize { // s es una referencia a un String
     s.len()
 }
 ```
 
-- **Reglas de préstamo y mutabilidad**
- - Solo puede haber una referencia mutable a un valor en un momento dado.
- - Se pueden tener múltiples referencias inmutables.
+**Referencias mutables**
 
-```rust
-let mut s = String::from("hello");
-
-let r1 = &s;
-let r2 = &s;
-// let r3 = &mut s; // Esto fallará
-
-println!("{}, {}", r1, r2);
-```
-
-### Seguridad de memoria
-- **Manejo seguro de la memoria**
- - Rust garantiza seguridad de memoria sin un recolector de basura.
- - Los errores comunes como null pointers y dangling pointers están eliminados.
-
-### Concurrency
-- **Trabajos concurrentes seguros**
- - Rust facilita la programación concurrente segura usando el sistema de tipos.
-
-```rust
-use std::thread;
-
-let handle = thread::spawn(|| {
-    for i in 1..10 {
-        println!("hi number {} from the spawned thread!", i);
-    }
-});
-
-handle.join().unwrap();
-```
-
-- **Canales (channels) y hilos (threads)**
- - Los canales permiten la comunicación segura entre hilos.
-
-```rust
-use std::sync::mpsc;
-use std::thread;
-
-let (tx, rx) = mpsc::channel();
-
-thread::spawn(move || {
-    let val = String::from("hi");
-    tx.send(val).unwrap();
-});
-
-let received = rx.recv().unwrap();
-println!("Got: {}", received);
-```
-
-### Error Handling
-- **Manejo de errores con Result y Option**
- - Result se usa para errores recuperables.
- - Option se usa para valores que pueden o no estar presentes.
-
-```rust
-fn divide(numerator: f64, denominator: f64) -> Result<f64, String> {
-    if denominator == 0.0 {
-        return Err(String::from("Cannot divide by zero"));
-    }
-    Ok(numerator / denominator)
-}
-
-let result = divide(4.0, 2.0);
-match result {
-    Ok(val) => println!("Result: {}", val),
-    Err(e) => println!("Error: {}", e),
-}
-```
-
-- **Uso de panic! para errores catastróficos**
- - panic! detiene el programa cuando ocurre un error grave.
+Las referencias mutables permiten modificar el valor de un dato.
 
 ```rust
 fn main() {
-    panic!("This is a panic");
+    let mut s = String::from("hello");
+
+    change(&mut s);
+}
+
+fn change(some_string: &mut String) {
+    some_string.push_str(", world");
 }
 ```
 
-### Macros
-- **Introducción a macros**
- - Las macros permiten escribir código que genera otros fragmentos de código.
-- **Definición y uso de macros**
-
-```rust
-macro_rules! say_hello {
-    () => {
-        println!("Hello!");
-    };
-}
-
-fn main() {
-    say_hello!();
-}
-```
-
-## 1.4.3. ¿Qué podemos hacer con Rust?
-### Desarrollo de sistemas
-- **Creación de sistemas operativos y drivers**
- - Rust se usa en proyectos como Redox, un sistema operativo escrito en Rust.
-- **Desarrollo de software de bajo nivel
- - Rust es ideal para escribir software que requiere un control preciso sobre el hardware.
-
-### Aplicaciones web
- - **Servidores web y microservicios**
- - Frameworks como Actix y Rocket facilitan la creación de servidores web rápidos y seguros.
-
-```rust
-use actix_web::{web, App, HttpServer, Responder};
-
-async fn greet() -> impl Responder {
-    "Hello world!"
-}
-
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route("/", web::get().to(greet))
-    })
-    .bind("127.0.0.1:8080")?
-    .run()
-    .await
-}
-```
-
-### Herramientas de línea de comandos
- - **Creación de herramientas CLI rápidas y eficientes**
- - Con crates como structopt y clap, puedes crear herramientas CLI robustas.
-
-```rust
-use structopt::StructOpt;
-
-#[derive(StructOpt)]
-struct Cli {
-    name: String,
-}
-
-fn main() {
-    let args = Cli::from_args();
-    println!("Hello, {}!", args.name);
-}
-```
-
-### Desarrollo de juegos
- - **Introducción a librerías como Amethyst y Bevy**
- - Estas librerías proporcionan herramientas y motores para desarrollo de juegos en Rust.
-
-```rust
-use bevy::prelude::*;
-
-fn main() {
-    App::build()
-        .add_plugins(DefaultPlugins)
-        .add_startup_system(hello_world.system())
-        .run();
-}
-
-fn hello_world() {
-    println!("Hello, Bevy!");
-}
-```
-
-### Análisis de datos y Machine Learning
-- **Uso de crates como polars y ndarray para análisis de datos**
- - Estas crates permiten trabajar con datos de manera eficiente.
-
-```rust
-use polars::prelude::*;
-use std::fs::File;
-
-fn main() -> Result<()> {
-    let file = File::open("data.csv").unwrap();
-    let df = CsvReader::new(file).infer_schema(None).has_header(true).finish().unwrap();
-    println!("{:?}", df);
-}
-```
-
-- **Implementación de algoritmos de Machine Learning**
- - Crates como smartcore proporcionan herramientas para implementar algoritmos de machine learning.
-
-```rust
-use smartcore::linalg::naive::dense_matrix::DenseMatrix;
-use smartcore::tree::decision_tree_classifier::DecisionTreeClassifier;
-
-fn main() {
-    let x = DenseMatrix::from_2d_array(&[
-        &[2.0, 3.0],
-        &[10.0, 15.0],
-        &[5.0, 8.0],
-        &[9.0, 10.0]
-    ]);
-
-    let y = vec![0, 1, 0, 1];
-
-    let tree = DecisionTreeClassifier::fit(&x, &y, Default::default()).unwrap();
-    let y_hat = tree.predict(&x).unwrap();
-
-    println!("{:?}", y_hat);
-}
-```
+**Reglas de Referencias**   
+- Solo se puede tener una referencia mutable a la vez.
+- No se puede tener una referencia mutable y una inmutable al mismo tiempo.
+- Las referencias deben estar dentro del alcance.
 

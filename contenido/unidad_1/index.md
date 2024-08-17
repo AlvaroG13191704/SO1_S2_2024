@@ -35,11 +35,10 @@
 
 ### 5. Rust
 
-- [**1.5.1. Conceptos básicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.5.2. Conceptos únicos de Rust**](Rust.md#Conceptos-básicos-de-Rust)
-- [**1.5.3. ¿Qué podemos hacer con Rust?**](Rust.md#Conceptos-básicos-de-Rust)
+- [**1.5.1. Instalación de Rust**](rust.md#151-instalación-de-rust)
+- [**1.5.1. Conceptos básicos de Rust**](rust.md#152-conceptos-básicos-de-rust)
+- [**1.5.2. Conceptos únicos de Rust**](rust.md#153-conceptos-avanzados)
 
-- 
 ### 6. Virtualización del Sistema Operativo:
 
 - **1.6.1. Hipervisores**
@@ -62,4 +61,4 @@
 - [Docker Network](https://docs.docker.com/engine/network/)
 - [Docker volumnes](https://docs.docker.com/engine/storage/volumes/)
 - [Docker compose](https://docs.docker.com/compose/)
-- 
+- [Rust playlist](https://youtube.com/playlist?list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8&si=hoEtDwQ3E1GzNCUM)
