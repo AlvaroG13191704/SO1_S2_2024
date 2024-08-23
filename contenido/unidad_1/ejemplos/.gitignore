@@ -1,1 +1,9 @@
 env
+modulo/.**
+modulo/Module.symvers
+modulo/modules.order
+modulo/sysinfo.ko
+modulo/sysinfo.mod.c
+modulo/sysinfo.mod.o
+modulo/sysinfo.o
+modulo/sysinfo.mod
