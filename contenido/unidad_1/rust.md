@@ -378,3 +378,185 @@ fn change(some_string: &mut String) {
 - No se puede tener una referencia mutable y una inmutable al mismo tiempo.
 - Las referencias deben estar dentro del alcance.
 
+### Implementaciones en Rust
+
+Las implementaciones en Rust permiten agregar métodos a un struct o enum.
+
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+fn main() {
+    let rect1 = Rectangle { width: 30, height: 50 };
+    let rect2 = Rectangle { width: 10, height: 40 };
+    let rect3 = Rectangle { width: 60, height: 45 };
+
+    println!("The area of the rectangle is {} square pixels.", rect1.area());
+
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+}
+```
+
+### Traits y generics
+
+**Traits**
+
+Los traits son una forma de definir comportamientos en Rust. Los traits permiten definir métodos que un tipo debe implementar.
+
+```rust
+pub trait Summary {
+    fn summarize(&self) -> String;
+}
+
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.location)
+    }
+}
+```
+
+**Generics**
+
+Los generics permiten definir funciones, structs y enums que pueden trabajar con diferentes tipos de datos.
+
+```rust
+pub struct Point<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Point<T> {
+    pub fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+
+fn main() {
+    let p = Point { x: 5, y: 10 };
+
+    println!("p.x = {}", p.x());
+
+    let p = Point { x: 1.0, y: 4.0 };
+
+    println!("p.x = {}", p.x());
+}
+```
+
+**Derivación automática de Traits**
+
+Rust permite derivar automáticamente algunos traits como Debug y Clone.
+
+```rust
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let rect = Rectangle { width: 30, height: 50 };
+    println!("rect is {:?}", rect);
+}
+```
+
+También se pueden derivar traits personalizados o existentes, como por ejemplo un Ord
+    
+```rust
+#[derive(PartialOrd, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Ord for Point {
+    fn cmp(&self, other: &Self) -> Ordering {
+        (self.x + self.y).cmp(&(other.x + other.y))
+    }
+}
+```
+
+### Manejo de errores
+
+Rust maneja los errores de dos formas, con Result y con panic.
+
+**Result**
+
+Result es un enum que puede tener dos variantes, Ok y Err. Result se usa para manejar errores de forma segura.
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let f = File::open("hello.txt");
+
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+}
+```
+
+**Panic**
+
+Panic se usa para terminar la ejecución de un programa de forma segura.
+
+```rust
+fn main() {
+    panic!("crash and burn");
+}
+```
+
+### Lectura y escritura de archivos
+
+Rust cuenta con un módulo llamado std::fs que permite leer y escribir archivos.
+
+```rust
+use std::fs::File;
+
+fn main() {
+    let f = File::open("hello.txt");
+
+    let f = match f {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the file: {:?}", error),
+    };
+}
+```
+
+### Uso de crates
+
+Rust cuenta con un manejador de paquetes llamado Cargo, que permite agregar dependencias a un proyecto.
+
+```toml
+[dependencies]
+serde = "1.0"
+serde_json = "1.0"
+```
+
+```rust
+use serde::{Serialize, Deserialize};
+use serde_json;
+```
+
+
