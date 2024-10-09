@@ -7,3 +7,4 @@ modulo/sysinfo.mod.c
 modulo/sysinfo.mod.o
 modulo/sysinfo.o
 modulo/sysinfo.mod
+rust_server/target

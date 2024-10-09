@@ -337,6 +337,7 @@ fn main() {
 
     // TODO: Utilizar algo para capturar la señal de terminación y matar el contenedor registro y cronjob.
 
+    
     loop {
         
         // Creamos una estructura de datos SystemInfo con un vector de procesos vacío.

@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "./;confproto";
+
+package confproto;
+
+
+// Definimos los servicios
+service StudentService {
+    rpc GetStudent(StudentRequest) returns (StudentResponse);
+}
+
+
+// Las estructuras de datos que se van a enviar
+message StudentRequest {
+    string name = 1;
+    int32 age = 3;
+    string faculty = 2;
+    Discipline discipline = 4;
+}
+
+
+enum Discipline {
+    swimming = 0;
+    boxing = 1;
+}
+
+message StudentResponse {
+    string success = 1;
+}
