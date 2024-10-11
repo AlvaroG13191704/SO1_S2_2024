@@ -37,7 +37,7 @@ func sendData(fiberCtx *fiber.Ctx) error {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewStudentServiceClient(conn)
+	c := pb.NewStudentClient(conn)
 
 	// Create a channel to receive the response and error
 	responseChan := make(chan *pb.StudentResponse)

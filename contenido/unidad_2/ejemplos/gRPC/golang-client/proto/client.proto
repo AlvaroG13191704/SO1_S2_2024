@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "./;confproto";
+
+package confproto;
+
+
+// Define our service and the method
+service Student {
+    rpc GetStudent(StudentRequest) returns (StudentResponse);
+}
+
+
+// The student request message
+message StudentRequest {
+    string name = 1;
+    int32 age = 3;
+    string faculty = 2;
+    Discipline discipline = 4;
+}
+
+
+enum Discipline {
+    swimming = 0;
+    boxing = 1;
+}
+
+message StudentResponse {
+    string success = 1;
+}
