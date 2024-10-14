@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
+	addr = flag.String("addr", "go-client-service:50051", "the address to connect to")
 )
 
 type Student struct {
@@ -83,7 +83,7 @@ func main() {
 	app := fiber.New()
 	app.Post("/faculty", sendData)
 
-	err := app.Listen(":3000")
+	err := app.Listen(":8080")
 	if err != nil {
 		log.Println(err)
 		return

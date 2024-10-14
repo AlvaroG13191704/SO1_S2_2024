@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-client-rust
+  namespace: sopes1
+spec:
+  selector:
+    matchLabels:
+      app: grpc-client-rust
+  template:
+    metadata:
+      labels:
+        app: grpc-client-rust
+    spec:
+      containers:
+      - name: grpc-client-rust
+        image: alvarog1318/rust-client-grpc:0.1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "0.3"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rust-client-service
+  namespace: sopes1
+spec:
+  selector:
+    app: grpc-client-rust
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+

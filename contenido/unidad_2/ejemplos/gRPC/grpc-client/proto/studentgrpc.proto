@@ -22,5 +22,5 @@ enum Discipline {
 }
 
 message StudentResponse {
-    string success = 1;
+    bool success = 1;
 }
