@@ -16,7 +16,7 @@ struct StudentData {
 }
 
 async fn handle_student(student: web::Json<StudentData>) -> impl Responder {
-    let mut client = match StudentClient::connect("http://go-client-service:50051").await {
+    let mut client = match StudentClient::connect("http://go-server-service:50051").await {
         Ok(client) => client,
         Err(e) => return HttpResponse::InternalServerError().body(format!("Failed to connect to gRPC server: {}", e)),
     };

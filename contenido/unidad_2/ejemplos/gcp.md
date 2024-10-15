@@ -97,8 +97,13 @@ kubectl apply -f goclient.yaml
 
 ### Referencias
 [gcloud](https://cloud.google.com/sdk/docs/install?hl=es-419)
+
 [kubectl](https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-access-for-kubectl)
+
 [kubectl commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
+
 [Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+
 [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+
 [Helm](https://helm.sh/docs/intro/quickstart/)

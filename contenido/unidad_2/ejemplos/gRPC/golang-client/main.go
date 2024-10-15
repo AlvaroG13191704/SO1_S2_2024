@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	addr = flag.String("addr", "go-client-service:50051", "the address to connect to")
+	addr = flag.String("addr", "go-server-service:50051", "the address to connect to")
 )
 
 type Student struct {

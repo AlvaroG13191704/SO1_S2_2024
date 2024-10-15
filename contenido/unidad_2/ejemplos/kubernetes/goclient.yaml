@@ -25,14 +25,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: go-client-service
+  name: go-client-service #DNS
   namespace: sopes1
 spec:
   selector:
     app: grpc-client-go
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 8080 # Entrada
+      targetPort: 8080 # Salida
   type: ClusterIP
 
